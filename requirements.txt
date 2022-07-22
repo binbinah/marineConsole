@@ -11,7 +11,6 @@ billiard==3.6.4.0
 binaryornot==0.4.4
 black==22.6.0
 celery==5.0.0
-certifi @ file:///private/var/folders/sy/f16zz6x50xz3113nwtb9bvq00000gp/T/abs_83242e7e-f82d-4a71-8ef2-9d71d212d249gu_wxmeq/croots/recipe/certifi_1655968827803/work/certifi
 cffi==1.15.1
 chardet==3.0.4
 charset-normalizer==2.1.0
