@@ -132,3 +132,7 @@ dmypy.json
 .DS_Store
 docker-compose.yml
 backend/marine_config.yml
+cache/
+cache/*
+db/
+db/*
