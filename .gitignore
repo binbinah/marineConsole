@@ -129,4 +129,6 @@ dmypy.json
 .pyre/
 .idea
 .idea/*
-.Ds
+.DS_Store
+docker-compose.yml
+backend/marine_config.yml
