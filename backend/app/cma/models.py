@@ -14,7 +14,7 @@ class MonitorInfo(Base):
     port_of_discharge = Column(String(256), comment="卸货港")
     container_detail = Column(String(1024), comment="线路详情")
     monitor_time = Column(DateTime, comment="监控时间")
-    monitor_type = Column(String(256), comment="类型，「可以下单」或者「等待开仓」")
+    monitor_type = Column(String(256), comment="类型，「could: 可以下单」或者「waiting: 等待开仓」")
     email_status = Column(Boolean, comment="邮件发送状态,1:已发送，0:未发送")
     is_active = Column(Boolean, default=True)
     created_at = Column(DateTime, default=datetime.now, comment="创建时间")

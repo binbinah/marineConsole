@@ -1,6 +1,12 @@
+mail_from: ''
+mail_key: ''
+mail_to:
+  - ''
+
+
+API_KEY: ''
 SECRET_KEY: ""
 ALGORITHM: "HS256"
-ACCESS_TOKEN_EXPIRE_MINUTES: 30
 
 
 db_name: ""

@@ -8,6 +8,7 @@ from backend.app.cma import schemas
 from datetime import datetime, timedelta
 from fastapi import Depends, HTTPException, status
 from backend.config import MarineConfig
+from backend.database import SessionLocal
 
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/api/cma/v1/token")
@@ -96,9 +97,32 @@ def get_monitor_info_items(db: Session, skip: int = 0, limit: int = 100):
     return db.query(models.MonitorInfo).offset(skip).limit(limit).all()
 
 
-def create_monitor_info_item(db: Session, item: schemas.MonitorInfo):
+def get_monitor_info_by_item(
+    db: Session, monitor_time: str, monitor_type: str, skip: int = 0, limit: int = 100
+):
+    return (
+        db.query(models.MonitorInfo)
+        .filter(models.MonitorInfo.monitor_time == monitor_time)
+        .offset(skip)
+        .limit(limit)
+        .all()
+    )
+
+
+def create_monitor_info_item(db: Session, item: schemas.MonitorInfoCreate):
     db_item = models.MonitorInfo(**item.dict())
     db.add(db_item)
     db.commit()
     db.refresh(db_item)
     return db_item
+
+
+class MarineMonitorCRUD:
+    def __init__(self):
+        self.session = SessionLocal()
+
+    def __del__(self):
+        self.session.close()
+
+    def get_monitor_info_by_item(self, monitor_time: str, monitor_type: str):
+        return get_monitor_info_by_item(self.session, monitor_time, monitor_type)

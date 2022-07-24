@@ -1,4 +1,5 @@
 from typing import List, Union
+from datetime import datetime, date
 
 from pydantic import BaseModel
 
@@ -23,11 +24,14 @@ class UserInDB(User):
     hashed_password: str
 
 
+# ------------------------------------------------
+
+
 class MonitorInfoBase(BaseModel):
     port_of_loading: str
     port_of_discharge: str
     container_detail: str
-    monitor_time: str
+    monitor_time: date
     monitor_type: str
     email_status: bool
     is_active: bool
@@ -39,7 +43,7 @@ class MonitorInfoCreate(MonitorInfoBase):
 
 class MonitorInfo(MonitorInfoBase):
     id: int
-    created_at: str
+    created_at: datetime
 
     class Config:
         orm_mode = True

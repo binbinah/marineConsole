@@ -8,11 +8,11 @@ from backend.config import MarineConfig
 class DBInfo(MarineConfig):
     def __init__(self):
         super().__init__()
-        self.name = self.config.get("db_name", "marine")
-        self.user = self.config.get("db_user", "marine")
-        self.password = self.config.get("db_password", "marine")
-        self.host = self.config.get("db_host", "db")
-        self.port = self.config.get("db_port", 3306)
+        self.name = self.config["db_name"]
+        self.user = self.config["db_user"]
+        self.password = self.config["db_password"]
+        self.host = self.config["db_host"]
+        self.port = self.config["db_port"]
 
 
 db_info = DBInfo()
@@ -22,3 +22,11 @@ engine = create_engine(SQLALCHEMY_DATABASE_URI, poolclass=NullPool)
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
 Base = declarative_base()
+
+# Dependency
+def get_db():
+    db = SessionLocal()
+    try:
+        yield db
+    finally:
+        db.close()

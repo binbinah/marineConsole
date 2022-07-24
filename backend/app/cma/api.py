@@ -1,12 +1,33 @@
 from datetime import timedelta
 
-
-from fastapi import Depends, HTTPException, status, APIRouter
 from fastapi.security import OAuth2PasswordRequestForm
-from backend.app.cma import schemas, crud
-
+from fastapi import Depends, HTTPException, status, APIRouter, Header, Response
+from backend.config import MarineConfig
+from backend.app.cma.service import MonitorService
+from backend.app.cma import schemas, crud, models
+from backend.database import engine, get_db
 
 router = APIRouter()
+models.Base.metadata.create_all(bind=engine)
+
+
+@router.post("/monitor/create", response_model=schemas.MonitorInfo)
+async def create_monitor_info(
+    monitor_info: schemas.MonitorInfoCreate,
+    db: crud.create_monitor_info_item = Depends(get_db),
+    api_key: str = Header(...),
+):
+    marine_config = MarineConfig()
+    if api_key != marine_config.config["API_KEY"]:
+        return Response(status_code=status.HTTP_403_FORBIDDEN)
+    monitor_service = MonitorService()
+    if monitor_service.send_monitor_info_email(monitor_info):
+        return crud.create_monitor_info_item(db, monitor_info)
+    else:
+        return Response(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+
+# ----------------------------account--------------------------------
 
 
 @router.post("/token", response_model=schemas.Token)
@@ -20,7 +41,7 @@ async def login_for_access_token(form_data: OAuth2PasswordRequestForm = Depends(
             detail="Incorrect username or password",
             headers={"WWW-Authenticate": "Bearer"},
         )
-    access_token_expires = timedelta(minutes=crud.ACCESS_TOKEN_EXPIRE_MINUTES)
+    access_token_expires = timedelta(minutes=30)
     access_token = crud.create_access_token(
         data={"sub": user.username}, expires_delta=access_token_expires
     )
