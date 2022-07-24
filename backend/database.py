@@ -8,10 +8,10 @@ from backend.config import MarineConfig
 class DBInfo(MarineConfig):
     def __init__(self):
         super().__init__()
-        self.name = self.config.get("db_name", "")
-        self.user = self.config.get("db_user", "")
-        self.password = self.config.get("db_password", "")
-        self.host = self.config.get("db_host", "")
+        self.name = self.config.get("db_name", "marine")
+        self.user = self.config.get("db_user", "marine")
+        self.password = self.config.get("db_password", "marine")
+        self.host = self.config.get("db_host", "db")
         self.port = self.config.get("db_port", 3306)
 
 

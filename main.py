@@ -51,7 +51,7 @@ def custom_openapi():
 api.openapi = custom_openapi
 
 
-api.include_router(cma_router, prefix="/cma/v1", tags=["ACCOUNT"])
+api.include_router(cma_router, prefix="/cma/v1", tags=["CMA"])
 
 
 if __name__ == "__main__":

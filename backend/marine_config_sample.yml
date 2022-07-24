@@ -1,0 +1,11 @@
+SECRET_KEY: ""
+ALGORITHM: "HS256"
+ACCESS_TOKEN_EXPIRE_MINUTES: 30
+
+
+db_name: ""
+db_user: ""
+db_password: ""
+db_host: "db"
+db_port: "3306"
+
